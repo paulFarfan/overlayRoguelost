@@ -67,15 +67,24 @@
       color: #f7ecd4;
     }
 
-    .seal {
-      position: absolute;
-      bottom: -30px;
-      right: -30px;
-      width: 80px;
-      height: 80px;
-      background: url('rogueSello.png') center/contain no-repeat;
-      animation: popIn 0.6s ease-out;
-    }
+.seal {
+  position: absolute;
+  bottom: -30px;
+  right: -30px;
+  width: 80px;
+  height: 80px;
+  background: url('rogueSello.png') center/contain no-repeat;
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.seal.popIn {
+  animation: popIn 0.6s ease-out forwards;
+  opacity: 1;
+  transform: scale(1);
+}
+
 
     @keyframes fadeIn {
       from {
@@ -123,6 +132,8 @@
     </div>
   </div>
 
+  <audio id="notificationSound" src="popAudio.mp3" preload="auto"></audio>
+
   <script>
     const displayDuration = 10 * 1000; // 10 seconds visible
     const idleDuration = 1 * 60 * 1000; // 1 minute hidden
@@ -134,22 +145,37 @@
 
         let current = 0;
         const card = document.getElementById('honorCard');
+        const audio = document.getElementById('notificationSound');
 
         function showHonor(index) {
-          const honor = honors[index];
-          card.innerHTML = `
-            <h2>${honor.title}</h2>
-            <p>${honor.description}</p>
-            <div class="seal"></div>
-          `;
-          card.classList.add('show');
-          card.classList.remove('hide');
+  const honor = honors[index];
+  card.innerHTML = `
+    <h2>${honor.title}</h2>
+    <p>${honor.description}</p>
+    <div class="seal"></div>
+  `;
+  card.classList.add('show');
+  card.classList.remove('hide');
+  audio.currentTime = 0;
+  audio.play();
 
-          setTimeout(() => {
-            card.classList.remove('show');
-            card.classList.add('hide');
-          }, displayDuration);
-        }
+  // Selecciona el sello y remueve clase de animacion
+  const seal = card.querySelector('.seal');
+  seal.classList.remove('popIn');
+  seal.style.opacity = '0';
+  seal.style.transform = 'scale(0)';
+
+  // Después de 7 segundos, activa la animación del sello
+  setTimeout(() => {
+    seal.classList.add('popIn');
+  }, 7000);
+
+  setTimeout(() => {
+    card.classList.remove('show');
+    card.classList.add('hide');
+    seal.classList.remove('popIn');
+  }, displayDuration);
+}
 
         function cycle() {
           showHonor(current);
