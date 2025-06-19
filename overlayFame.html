@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guild Chronicles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
@@ -12,8 +13,8 @@
       height: 100%;
       background: transparent;
       font-family: 'Cinzel', serif;
-      color: #f0e6d2;
-      text-shadow: 1px 1px 2px #000;
+      color: #e6d3a3;
+      text-shadow: 2px 2px 4px #000;
     }
 
     .overlay {
@@ -27,27 +28,43 @@
     }
 
     .card {
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #7c3a2d;
-      padding: 2rem;
+      background: rgba(20, 15, 10, 0.8);
+      border: 3px solid #a67544;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      padding: 3rem;
       border-radius: 1rem;
       width: 90vw;
       max-width: 1000px;
       position: relative;
-      animation: fadeIn 1.5s ease-in-out;
-      display: none;
+      animation: fadeIn 1s ease-in-out, fadeOut 1s ease-in-out forwards;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    .card.show {
+      display: block;
+      animation: fadeIn 0.8s ease-in-out;
+      opacity: 1;
+    }
+
+    .card.hide {
+      animation: fadeOut 0.8s ease-in-out;
+      opacity: 0;
     }
 
     .card h2 {
-      font-size: 2.5vw;
+      font-family: 'UnifrakturCook', cursive;
+      font-size: 3vw;
       margin: 0 0 1rem;
       text-align: center;
+      color: #ffd77a;
     }
 
     .card p {
-      font-size: 1.5vw;
+      font-size: 1.7vw;
       margin: 0;
       text-align: center;
+      color: #f7ecd4;
     }
 
     .seal {
@@ -62,11 +79,22 @@
     @keyframes fadeIn {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.95);
       }
     }
   </style>
@@ -81,8 +109,8 @@
   </div>
 
   <script>
-    const displayDuration = 10 * 1000; // visible for 10 seconds
-    const idleDuration = 1 * 60 * 1000; // hidden for 5 minutes
+    const displayDuration = 10 * 1000; // 10 seconds visible
+    const idleDuration = 1 * 60 * 1000; // 1 minute hidden
 
     async function loadHonors() {
       try {
@@ -99,9 +127,12 @@
             <p>${honor.description}</p>
             <div class="seal"></div>
           `;
-          card.style.display = 'block';
+          card.classList.add('show');
+          card.classList.remove('hide');
+
           setTimeout(() => {
-            card.style.display = 'none';
+            card.classList.remove('show');
+            card.classList.add('hide');
           }, displayDuration);
         }
 
