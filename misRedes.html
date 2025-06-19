@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RogueLost Social Ticker</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .ticker-container {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 50px;
+      overflow: hidden;
+      background: rgba(15, 10, 5, 0.8);
+      border: 2px solid #a67544;
+      border-radius: 10px;
+      font-family: 'Cinzel', serif;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .ticker-container.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .ticker-container.hide {
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .ticker-text {
+      display: inline-block;
+      white-space: nowrap;
+      padding-left: 100%;
+      animation: scroll 30s linear infinite;
+      font-size: 1.1rem;
+      color: #ffd77a;
+      text-shadow: 1px 1px 3px #000;
+      line-height: 50px;
+      pointer-events: auto;
+    }
+
+    .ticker-text:hover {
+      animation-play-state: paused;
+    }
+
+    .icon {
+      height: 24px;
+      vertical-align: middle;
+      margin: 0px 5px 0px 50px;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticker-container" id="ticker">
+    <div class="ticker-text">
+      <img src="twitch.png" class="icon" />/roguelost   
+	  <img src="youtube.png" class="icon" />/@roguelost   
+      <img src="tiktok.png" class="icon" />/@roguelost   
+      <img src="instagram.png" class="icon" />/rogue.lost   
+      <img src="facebook.png" class="icon" />/profile.php?id=61575673856289    
+    </div>
+  </div>
+
+  <script>
+    const ticker = document.getElementById('ticker');
+    const showDuration = 30 * 1000; // 20 seconds
+    const intervalDuration = 15 * 60 * 1000; // 15 minutes
+
+    function showTicker() {
+      ticker.classList.remove('hide');
+      ticker.classList.add('show');
+
+      setTimeout(() => {
+        ticker.classList.remove('show');
+        ticker.classList.add('hide');
+
+        // Luego de la animación, ocultar por completo
+        setTimeout(() => {
+          ticker.style.display = 'none';
+        }, 1000); // debe coincidir con el fade-out duration
+      }, showDuration);
+    }
+
+    // Primera aparición
+    showTicker();
+
+    // Repetir cada intervalo
+    setInterval(() => {
+      ticker.style.display = 'block';
+      showTicker();
+    }, intervalDuration);
+  </script>
+</body>
+</html>
