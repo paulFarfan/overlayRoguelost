@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Guild Chronicles</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      width:  100%;
+      width: 100%;
       height: 100%;
       background: transparent;
       font-family: 'Cinzel', serif;
@@ -67,24 +67,25 @@
       color: #f7ecd4;
     }
 
-.seal {
-  position: absolute;
-  bottom: -30px;
-  right: -30px;
-  width: 80px;
-  height: 80px;
-  background: url('rogueSello.png') center/contain no-repeat;
-  opacity: 0;
-  transform: scale(0);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
+    .seal {
+      position: absolute;
+      bottom: -30px;
+      right: -30px;
+      width: 80px;
+      height: 80px;
+      background: url('rogueSello.png') center/contain no-repeat;
+      opacity: 0;
+      transform: scale(0);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
 
-.seal.popIn {
-  animation: popIn 0.6s ease-out forwards;
-  opacity: 1;
-  transform: scale(1);
-}
+    .seal.popIn {
+      animation: popIn 0.6s ease-out forwards;
+    }
 
+    .seal.fadeOut {
+      animation: fadeSealOut 0.5s ease-out forwards;
+    }
 
     @keyframes fadeIn {
       from {
@@ -119,6 +120,18 @@
       }
       100% {
         transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeSealOut {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.5);
       }
     }
   </style>
@@ -136,7 +149,7 @@
 
   <script>
     const displayDuration = 10 * 1000; // 10 seconds visible
-    const idleDuration = 1 * 60 * 1000; // 1 minute hidden
+    const idleDuration = 1 * 20 * 1000; // 20 seconds hidden
 
     async function loadHonors() {
       try {
@@ -148,34 +161,34 @@
         const audio = document.getElementById('notificationSound');
 
         function showHonor(index) {
-  const honor = honors[index];
-  card.innerHTML = `
-    <h2>${honor.title}</h2>
-    <p>${honor.description}</p>
-    <div class="seal"></div>
-  `;
-  card.classList.add('show');
-  card.classList.remove('hide');
-  audio.currentTime = 0;
-  audio.play();
+          const honor = honors[index];
+          card.innerHTML = `
+            <h2>${honor.title}</h2>
+            <p>${honor.description}</p>
+            <div class="seal"></div>
+          `;
 
-  // Selecciona el sello y remueve clase de animacion
-  const seal = card.querySelector('.seal');
-  seal.classList.remove('popIn');
-  seal.style.opacity = '0';
-  seal.style.transform = 'scale(0)';
+          card.classList.add('show');
+          card.classList.remove('hide');
+          audio.currentTime = 0;
+          audio.play();
 
-  // Después de 7 segundos, activa la animación del sello
-  setTimeout(() => {
-    seal.classList.add('popIn');
-  }, 7000);
+          const seal = card.querySelector('.seal');
+          seal.classList.remove('popIn', 'fadeOut');
+          seal.style.opacity = '0';
+          seal.style.transform = 'scale(0)';
 
-  setTimeout(() => {
-    card.classList.remove('show');
-    card.classList.add('hide');
-    seal.classList.remove('popIn');
-  }, displayDuration);
-}
+          setTimeout(() => {
+            seal.classList.add('popIn');
+          }, 7000); // Aparece después de 7 segundos
+
+          setTimeout(() => {
+            card.classList.remove('show');
+            card.classList.add('hide');
+            seal.classList.remove('popIn');
+            seal.classList.add('fadeOut'); // Se va suavemente junto con la tarjeta
+          }, displayDuration);
+        }
 
         function cycle() {
           showHonor(current);
