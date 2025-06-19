@@ -26,12 +26,6 @@
       padding: 0;
     }
 
-    .title {
-      font-size: 3vw;
-      margin-bottom: 2vh;
-      text-align: center;
-    }
-
     .card {
       background: rgba(0, 0, 0, 0.6);
       border: 2px solid #7c3a2d;
@@ -41,6 +35,7 @@
       max-width: 1000px;
       position: relative;
       animation: fadeIn 1.5s ease-in-out;
+      display: none;
     }
 
     .card h2 {
@@ -78,7 +73,6 @@
 </head>
 <body>
   <div class="overlay">
-    <div class="title">📜 Guild Chronicles – Honor of the Shadows</div>
     <div class="card" id="honorCard">
       <h2>Loading...</h2>
       <p>Please wait while the honors are loaded.</p>
@@ -87,6 +81,9 @@
   </div>
 
   <script>
+    const displayDuration = 10 * 1000; // visible for 10 seconds
+    const idleDuration = 1 * 60 * 1000; // hidden for 5 minutes
+
     async function loadHonors() {
       try {
         const response = await fetch('honors.json');
@@ -102,14 +99,19 @@
             <p>${honor.description}</p>
             <div class="seal"></div>
           `;
+          card.style.display = 'block';
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, displayDuration);
         }
 
-        showHonor(current);
-        setInterval(() => {
-          current = (current + 1) % honors.length;
+        function cycle() {
           showHonor(current);
-        }, 20000);
+          current = (current + 1) % honors.length;
+          setTimeout(cycle, idleDuration);
+        }
 
+        cycle();
       } catch (error) {
         console.error('Failed to load honors:', error);
       }
