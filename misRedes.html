@@ -11,24 +11,26 @@
       background: transparent;
     }
 
-    .ticker-container {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 45%;
-      height: 50px;
-      overflow: hidden;
-      background: rgba(15, 10, 5, 0.8);
-      border: 2px solid #a67544;
-      border-radius: 10px;
-      font-family: 'Cinzel', serif;
-      display: none;
-      z-index: 9999;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
+.ticker-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;
+  height: 50px;
+  overflow: hidden;
+  background: rgba(15, 10, 5, 0.3); /* más claro para dejar pasar el blur */
+  border: 2px solid #a67544;
+  border-radius: 10px;
+  font-family: 'Cinzel', serif;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  backdrop-filter: blur(10px); /* efecto borroso */
+  -webkit-backdrop-filter: blur(10px); /* soporte para Safari */
+}
 
     .ticker-container.show {
       display: block;
@@ -40,17 +42,18 @@
       transition: opacity 1s ease-in-out;
     }
 
-    .ticker-text {
-      display: inline-block;
-      white-space: nowrap;
-      padding-left: 100%;
-      animation: scroll 30s linear infinite;
-      font-size: 1.1rem;
-      color: #ffd77a;
-      text-shadow: 1px 1px 3px #000;
-      line-height: 50px;
-      pointer-events: auto;
-    }
+.ticker-text {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: scroll 30s linear infinite;
+  font-size: 1.1rem;
+  color: #ffd77a;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* más sombra para contraste */
+  line-height: 50px;
+  pointer-events: auto;
+  font-weight: bold; /* negrilla */
+}
 
     .ticker-text:hover {
       animation-play-state: paused;
