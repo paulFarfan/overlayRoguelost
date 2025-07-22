@@ -19,7 +19,7 @@
   width: 45%;
   height: 50px;
   overflow: hidden;
-  background: rgba(15, 10, 5, 0.3); /* más claro para dejar pasar el blur */
+  background-color: #1a120b; /* color sólido oscuro, sin transparencia */
   border: 2px solid #a67544;
   border-radius: 10px;
   font-family: 'Cinzel', serif;
@@ -28,8 +28,8 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   opacity: 0;
   transition: opacity 1s ease-in-out;
-  backdrop-filter: blur(10px); /* efecto borroso */
-  -webkit-backdrop-filter: blur(10px); /* soporte para Safari */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
     .ticker-container.show {
@@ -49,10 +49,10 @@
   animation: scroll 30s linear infinite;
   font-size: 1.1rem;
   color: #ffd77a;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* más sombra para contraste */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.9); /* sombra fuerte para contraste */
   line-height: 50px;
   pointer-events: auto;
-  font-weight: bold; /* negrilla */
+  font-weight: bold;
 }
 
     .ticker-text:hover {
